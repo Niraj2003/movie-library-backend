@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://movie-library-sooty.vercel.app/',
+  origin: '*',
   methods: ['GET', 'POST'],
   credentials: true
 }));
