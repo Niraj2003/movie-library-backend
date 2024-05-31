@@ -5,6 +5,7 @@ const {
   getListById,
   updateList,
   deleteList,
+  getPublicLists,
 } = require('../listController');
 const authMiddleware = require('../middleware/authMiddleware');
 
@@ -24,5 +25,7 @@ router.put('/:id', authMiddleware, updateList);
 
 // Delete a list (requires authentication)
 router.delete('/:id', authMiddleware, deleteList);
+
+router.get('/public', authMiddleware, getPublicLists);
 
 module.exports = router;

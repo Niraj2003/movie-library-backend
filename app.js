@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -12,6 +13,8 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(cors({
   origin: 'https://movie-library-sooty.vercel.app/',
   methods: ['GET', 'POST'],

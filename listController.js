@@ -85,3 +85,13 @@ exports.deleteList = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.getPublicLists = async (req, res) => {
+  try {
+    const publicLists = await List.find({ isPublic: true });
+    res.json(publicLists);
+  } catch (error) {
+    console.error('Error fetching public lists:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
