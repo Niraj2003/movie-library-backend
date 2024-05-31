@@ -16,12 +16,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: (origin, callback) => {
-    // Check if the origin is allowed, or allow all origins
-    callback(null, origin ? true : '*');
-  },
+  origin: "*",
   methods: ['GET', 'POST'],
-  credentials: true
+  credentials: true,
 }));
 
 app.get('/', (req, res) => {
