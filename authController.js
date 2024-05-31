@@ -1,8 +1,9 @@
 // authController.js
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./model/User');
 const List = require('./model/List');
+const Cookies= require('js-cookie');
+const bcrypt = require('bcryptjs');
 
 exports.register = async (req, res) => {
   console.log(req.body.username);
@@ -44,14 +45,23 @@ exports.login = async (req, res) => {
 exports.getUserProfile = async (req, res) => {
   try {
     // Retrieve user information from the database based on user ID obtained from JWT token
-    const user = await User.findById(req.userId).select('-password'); // Exclude password from the response
+    const token = req.cookies.authToken;
+    // console.log(token + "niraj");
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+    console.log(userId);
+    const user = await User.findById(userId).select('-password'); // Exclude password from the response
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     // Retrieve lists associated with the user
-    const lists = await List.find({ user: req.userId });
+    const lists = await List.find({ user: userId }); // Use userId instead of req.userId
 
     res.json({ user, lists });
   } catch (error) {
