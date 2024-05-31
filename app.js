@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'https://movie-library-sooty.vercel.app/',
+  origin: '*',
   methods: ['GET', 'POST'],
   credentials: true
 }));
