@@ -37,7 +37,7 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     // res.json({ token, userId: user._id });
-    res.cookie('authToken', token, { sameSite: 'Lax', maxAge: 3600000 }); // Adjust attributes as necessary
+    res.cookie('authToken', token, { maxAge: 3600000 }); // Adjust attributes as necessary
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
