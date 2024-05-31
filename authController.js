@@ -46,7 +46,7 @@ exports.getUserProfile = async (req, res) => {
   try {
     // Retrieve user information from the database based on user ID obtained from JWT token
     const token = req.cookies.authToken;
-    // console.log(token + "niraj");
+    console.log(token);
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
