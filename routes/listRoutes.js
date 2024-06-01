@@ -1,3 +1,4 @@
+console.log('listRoutes.js');
 const express = require('express');
 const {
   createList,
@@ -15,17 +16,17 @@ const router = express.Router();
 router.post('/', authMiddleware, createList);
 
 // Get all lists for the authenticated user
-router.get('/', authMiddleware, getLists);
+// router.get('/', authMiddleware, getLists);
 
-// Get a specific list by ID (requires authentication)
-router.get('/:id', authMiddleware, getListById);
+// // Get a specific list by ID (requires authentication)
+// router.get('/:id', authMiddleware, getListById);
 
-// Update a list (requires authentication)
-router.put('/:id', authMiddleware, updateList);
+// // Update a list (requires authentication)
+// router.put('/:id', authMiddleware, updateList);
 
-// Delete a list (requires authentication)
-router.delete('/:id', authMiddleware, deleteList);
+// // Delete a list (requires authentication)
+// router.delete('/:id', authMiddleware, deleteList);
 
-router.get('/public', authMiddleware, getPublicLists);
+// router.get('/public', authMiddleware, getPublicLists);
 
 module.exports = router;

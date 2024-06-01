@@ -5,6 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Search for movies (requires authentication)
-router.get('/search', authMiddleware, searchMovies);
+// router.get('/search', authMiddleware, searchMovies);
 
 module.exports = router;

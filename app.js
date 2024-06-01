@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -15,10 +16,22 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+console.log("Client" + process.env.FRONTEND_URL);
+
 app.use(cors({
-  origin: "*",
-  methods: ['GET', 'POST'],
+  origin: process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
+  allowedHeaders: 'Content-Type,Authorization',
+}));
+app.use(bodyParser.json());
+
+app.options('*', cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type',
+  allowedHeaders: 'Content-Type,Authorization',
 }));
 
 app.get('/', (req, res) => {

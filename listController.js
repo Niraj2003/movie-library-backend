@@ -2,9 +2,11 @@
 const List = require('./model/List');
 
 exports.createList = async (req, res) => {
+  console.log('listController.js');
   const { name, movies, isPublic } = req.body;
 
   try {
+    console.log('Creating list:', name, movies, isPublic, req.userId);
     const newList = new List({ name, movies, isPublic, user: req.userId });
     await newList.save();
     res.status(201).json(newList);
