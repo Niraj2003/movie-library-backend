@@ -4,6 +4,8 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoutes');
+const listRoutes = require('./routes/listRoutes');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -16,7 +18,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-console.log("Client" + process.env.FRONTEND_URL);
+console.log("Client: " + process.env.FRONTEND_URL);
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,
@@ -24,7 +26,12 @@ app.use(cors({
   credentials: true,
   allowedHeaders: 'Content-Type,Authorization',
 }));
+
+console.log("CORS middleware initialized");
+
 app.use(bodyParser.json());
+
+console.log("Body parser middleware initialized");
 
 app.options('*', cors({
   origin: process.env.FRONTEND_URL,
@@ -34,22 +41,22 @@ app.options('*', cors({
   allowedHeaders: 'Content-Type,Authorization',
 }));
 
-app.get('/', (req, res) => {
-  res.send('API running');
-})
+console.log("CORS options middleware initialized");
 
-const authRoutes = require('./routes/authRoutes');
-const movieRoutes = require('./routes/movieRoutes');
-const listRoutes = require('./routes/listRoutes');
+app.get('/', (req, res) => {
+  console.log("GET request received on /");
+  res.send('API running');
+});
+
 
 app.use('/api/auth', authRoutes);
-app.use('/api/movies', movieRoutes);
 app.use('/api/lists', listRoutes);
 
 app.get('*',(req,res,next)=>{
+  console.log("Invalid request received");
   res.status(200).json({
     message:'bad request'
-  })
-})
+  });
+});
 
 module.exports = app;
