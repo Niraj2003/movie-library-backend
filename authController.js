@@ -3,8 +3,6 @@ const User = require('./model/User');
 const List = require('./model/List');
 const bcrypt = require('bcryptjs');
 
-// authController.js
-
 exports.register = async (req, res) => {
   console.log("authController.js");
   console.log(req.body.username);
@@ -20,7 +18,8 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
-    console.log("User registered:", newUser);
+    console.log('User registered');
+    // console.log("User registered:", newUser);
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error registering user:', error);
@@ -30,7 +29,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(`Email: ${email}, Password: ${password}`);
+  // console.log(`Email: ${email}, Password: ${password}`);
 
   try {
     const user = await User.findOne({ email });
@@ -66,15 +65,15 @@ exports.getUserProfile = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
     const user = await User.findById(userId).select('-password');
-    console.log("Username:", user.username);
+    // console.log("Username:", user.username);
     if (!user) {
       console.log('User not found');
       return res.status(404).json({ message: 'User not found' });
     }
 
     const lists = await List.find({ user: userId });
-    console.log("Lists:", lists);
-    res.json(user);
+    // console.log("Lists:", lists);
+    res.json({user, lists});
   } catch (error) {
     console.error('Error fetching user profile:', error);
     res.status(500).json({ message: 'Server error' });
