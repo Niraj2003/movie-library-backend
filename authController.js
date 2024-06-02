@@ -55,7 +55,11 @@ exports.login = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
   try {
-    const token = req.cookies.authToken;
+    const authorizationHeader = req.headers.Authorization || req.headers.authorization;
+    if (!authorizationHeader) {
+        return res.status(401).json({ message: 'No token, authorization denied' });
+    }
+    const token = authorizationHeader.split(' ')[1];
 
     if (!token) {
       console.log('Unauthorized');

@@ -2,12 +2,13 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
     console.log("Auth Middleware Running...");
-    const token = req.cookies.authToken;
-    console.log("token is: " + token);
-    if (!token) {
+    // Access cookies from headers
+    const authorizationHeader = req.headers.Authorization || req.headers.authorization;
+    if (!authorizationHeader) {
         return res.status(401).json({ message: 'No token, authorization denied' });
     }
-
+    const token = authorizationHeader.split(' ')[1];
+    console.log("token is: " + token);
     try {
         // console.log("JWT_SECRET is: " + process.env.JWT_SECRET);
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
