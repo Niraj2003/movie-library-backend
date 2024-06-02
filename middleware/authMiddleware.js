@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-    // console.log("authMiddleware.js");
+    console.log("Auth Middleware Running...");
     const token = req.cookies.authToken;
     // console.log("token is: " + token);
     if (!token) {
